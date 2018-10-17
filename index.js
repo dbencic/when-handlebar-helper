@@ -6,11 +6,15 @@ function quoteIfString(literal) {
     }
 }
 
-function when(first, expression, second, options) {
-    if(arguments.length != 4) {
-        throw new Error("expected exactly 3 arguments. 'when' helper usage: {{#when first operator second}}. example: {{#when mynumber == 2}}. For pure boolean check use built in #if helper");
+function when() {
+    var options = arguments[arguments.length - 1];
+    console.log(options);
+    var expr = [];
+    for(var i=0; i<arguments.length - 1; i++) {
+        //1,3
+        expr.push((i % 2 == 0)?quoteIfString(arguments[i]):arguments[i]);
     }
-    var result = eval(quoteIfString(first) + expression + quoteIfString(second));
+    var result = eval(expr.join(" "));
     if(result) {
         return options.fn(this);
     }else {
